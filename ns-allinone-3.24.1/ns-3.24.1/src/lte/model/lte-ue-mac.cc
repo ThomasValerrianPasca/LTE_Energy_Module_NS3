@@ -34,7 +34,6 @@
 #include <ns3/lte-control-messages.h>
 #include <ns3/simulator.h>
 #include <ns3/lte-common.h>
-#include <ns3/LteUePowerModel.h>
 #include "ns3/simple-device-energy-model.h"
 #include "ns3/li-ion-energy-source.h"
 #include "ns3/energy-source-container.h"
@@ -299,7 +298,7 @@ void
 LteUeMac::DoTransmitPdu (LteMacSapProvider::TransmitPduParameters params)
 {
   NS_LOG_FUNCTION (this);
-  Ptr<LiIonEnergySource> cb= 
+//  Ptr<LiIonEnergySource> cb=
   Callback<void, double> two;
   two = MakeCallback(&LiIonEnergySource::DecreaseRemainingEnergy, &cb);
 
