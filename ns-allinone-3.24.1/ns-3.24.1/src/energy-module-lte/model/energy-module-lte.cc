@@ -26,11 +26,18 @@ void EnergyModuleLte::Only_uplink_tx(double idleTime)
 	double energyDecreasedIdle=0.1*supplyVoltage*idleTime/1000000000;
 	//Energy to be decrease in joules
 	double energyDecreasedTx=(0.11+0.306)*supplyVoltage*0.001;
-	only_tx(energyDecreasedTx+energyDecreasedIdle);
+
 	m_time_last_tx=Simulator::Now().GetMilliSeconds();
 
 	if(m_time_last_rx==m_time_last_tx)
+	{
+		only_tx(energyDecreasedTx);
 		both_donwlink_and_uplink(idleTime);
+	}
+	else{
+		only_tx(energyDecreasedTx+energyDecreasedIdle);
+	}
+
 }
 
 void EnergyModuleLte::Only_donwlink_rx(double idleTime)
@@ -41,11 +48,19 @@ void EnergyModuleLte::Only_donwlink_rx(double idleTime)
 	double supplyVoltage=5.0;
 	double energyDecreasedIdle=0.1*supplyVoltage*idleTime/1000000000;
 	double energyDecreasedRx=(0.098+0.306)*supplyVoltage*0.001;
-	only_tx(energyDecreasedRx+energyDecreasedIdle);
+	if(m_time_last_rx==m_time_last_tx)
+	{
+		only_tx(energyDecreasedRx);
+		both_donwlink_and_uplink(idleTime);
+
+	}
+	else{
+		only_tx(energyDecreasedRx+energyDecreasedIdle);
+	}
+
 	m_time_last_rx=Simulator::Now().GetMilliSeconds();
 
-	if(m_time_last_rx==m_time_last_tx)
-		both_donwlink_and_uplink(idleTime);
+
 }
 
 void EnergyModuleLte::Only_idle_decrease(double idleTime)
