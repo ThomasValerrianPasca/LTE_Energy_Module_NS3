@@ -33,9 +33,11 @@ void EnergyModuleLte::Only_uplink_tx(double idleTime)
 	{
 		only_tx(energyDecreasedTx);
 		both_donwlink_and_uplink(idleTime);
+
 	}
 	else{
 		only_tx(energyDecreasedTx+energyDecreasedIdle);
+		std::cout<<"Transmit chain is consuming power"<< (energyDecreasedTx+energyDecreasedIdle) <<" joules"<<std::endl;
 	}
 
 }
@@ -56,6 +58,7 @@ void EnergyModuleLte::Only_donwlink_rx(double idleTime)
 	}
 	else{
 		only_tx(energyDecreasedRx+energyDecreasedIdle);
+		std::cout<<"Receive chain is consuming power"<< (energyDecreasedRx+energyDecreasedIdle) <<" joules"<<std::endl;
 	}
 
 	m_time_last_rx=Simulator::Now().GetMilliSeconds();
@@ -79,6 +82,7 @@ void EnergyModuleLte::both_donwlink_and_uplink(double idleTime)
 	double supplyVoltage=5.0;
 	double energyDecreasedIdle=0.032*supplyVoltage*0.001;
 	only_tx(energyDecreasedIdle);
+	std::cout<<"Both Transmit and Receive chain is consuming power "<<std::endl;
 }
 
 
