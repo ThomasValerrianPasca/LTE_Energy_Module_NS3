@@ -35,8 +35,8 @@
 #include <ns3/packet.h>
 #include <ns3/packet-burst.h>
 #include "ns3/simple-device-energy-model.h"
-#include "ns3/li-ion-energy-source.h"
 #include "ns3/energy-source-container.h"
+#include "ns3/energy-module-lte.h"
 
 // extern long long dCount;
 // extern long long uCount;
@@ -47,123 +47,123 @@ class UniformRandomVariable;
 
 class LteUeMac :   public Object
 {
-  friend class UeMemberLteUeCmacSapProvider;
-  friend class UeMemberLteMacSapProvider;
-  friend class UeMemberLteUePhySapUser;
+	friend class UeMemberLteUeCmacSapProvider;
+	friend class UeMemberLteMacSapProvider;
+	friend class UeMemberLteUePhySapUser;
 
 public:
-  static TypeId GetTypeId (void);
-  Time m_lastUpdateTime; 
-  //extern long long dCount;
-  //extern long long uCount;
-  LiIonEnergySource cb;
-  LteUeMac ();
-  virtual ~LteUeMac ();
-  virtual void DoDispose (void);
+	static TypeId GetTypeId (void);
+	Time m_lastUpdateTime;
+	//extern long long dCount;
+	//extern long long uCount;
+	EnergyModuleLte LEM;
+	LteUeMac ();
+	virtual ~LteUeMac ();
+	virtual void DoDispose (void);
 
-  LteMacSapProvider*  GetLteMacSapProvider (void);
-  void  SetLteUeCmacSapUser (LteUeCmacSapUser* s);
-  LteUeCmacSapProvider*  GetLteUeCmacSapProvider (void);
+	LteMacSapProvider*  GetLteMacSapProvider (void);
+	void  SetLteUeCmacSapUser (LteUeCmacSapUser* s);
+	LteUeCmacSapProvider*  GetLteUeCmacSapProvider (void);
 
-  /**
-  * \brief Get the PHY SAP user
-  * \return a pointer to the SAP user of the PHY
-  */
-  LteUePhySapUser* GetLteUePhySapUser ();
-  /**
-  * \brief Set the PHY SAP Provider
-  * \param s a pointer to the PHY SAP Provider
-  */
-  void SetLteUePhySapProvider (LteUePhySapProvider* s);
-  
-  /**
-  * \brief Forwarded from LteUePhySapUser: trigger the start from a new frame
-  *
-  * \param frameNo frame number
-  * \param subframeNo subframe number
-  */
-  void DoSubframeIndication (uint32_t frameNo, uint32_t subframeNo);
+	/**
+	 * \brief Get the PHY SAP user
+	 * \return a pointer to the SAP user of the PHY
+	 */
+	LteUePhySapUser* GetLteUePhySapUser ();
+	/**
+	 * \brief Set the PHY SAP Provider
+	 * \param s a pointer to the PHY SAP Provider
+	 */
+	void SetLteUePhySapProvider (LteUePhySapProvider* s);
 
- /**
-  * Assign a fixed random variable stream number to the random variables
-  * used by this model.  Return the number of streams (possibly zero) that
-  * have been assigned.
-  *
-  * \param stream first stream index to use
-  * \return the number of stream indices assigned by this model
-  */
-  int64_t AssignStreams (int64_t stream);
+	/**
+	 * \brief Forwarded from LteUePhySapUser: trigger the start from a new frame
+	 *
+	 * \param frameNo frame number
+	 * \param subframeNo subframe number
+	 */
+	void DoSubframeIndication (uint32_t frameNo, uint32_t subframeNo);
 
-private:
-  // forwarded from MAC SAP
-  void DoTransmitPdu (LteMacSapProvider::TransmitPduParameters params);
-  void DoReportBufferStatus (LteMacSapProvider::ReportBufferStatusParameters params);
-
-  // forwarded from UE CMAC SAP
-  void DoConfigureRach (LteUeCmacSapProvider::RachConfig rc);
-  void DoStartContentionBasedRandomAccessProcedure ();
-  void DoStartNonContentionBasedRandomAccessProcedure (uint16_t rnti, uint8_t rapId, uint8_t prachMask);
-  void DoAddLc (uint8_t lcId, LteUeCmacSapProvider::LogicalChannelConfig lcConfig, LteMacSapUser* msu);
-  void DoRemoveLc (uint8_t lcId);
-  void DoReset ();
-
-  // forwarded from PHY SAP
-  void DoReceivePhyPdu (Ptr<Packet> p);
-  void DoReceiveLteControlMessage (Ptr<LteControlMessage> msg);
-  
-  // internal methods
-  void RandomlySelectAndSendRaPreamble ();
-  void SendRaPreamble (bool contention);
-  void StartWaitingForRaResponse ();
-  void RecvRaResponse (BuildRarListElement_s raResponse);
-  void RaResponseTimeout (bool contention);
-  void SendReportBufferStatus (void);
-  void RefreshHarqProcessesPacketBuffer (void);
+	/**
+	 * Assign a fixed random variable stream number to the random variables
+	 * used by this model.  Return the number of streams (possibly zero) that
+	 * have been assigned.
+	 *
+	 * \param stream first stream index to use
+	 * \return the number of stream indices assigned by this model
+	 */
+	int64_t AssignStreams (int64_t stream);
 
 private:
+	// forwarded from MAC SAP
+	void DoTransmitPdu (LteMacSapProvider::TransmitPduParameters params);
+	void DoReportBufferStatus (LteMacSapProvider::ReportBufferStatusParameters params);
 
-  struct LcInfo
-  {
-    LteUeCmacSapProvider::LogicalChannelConfig lcConfig;
-    LteMacSapUser* macSapUser;
-  };
+	// forwarded from UE CMAC SAP
+	void DoConfigureRach (LteUeCmacSapProvider::RachConfig rc);
+	void DoStartContentionBasedRandomAccessProcedure ();
+	void DoStartNonContentionBasedRandomAccessProcedure (uint16_t rnti, uint8_t rapId, uint8_t prachMask);
+	void DoAddLc (uint8_t lcId, LteUeCmacSapProvider::LogicalChannelConfig lcConfig, LteMacSapUser* msu);
+	void DoRemoveLc (uint8_t lcId);
+	void DoReset ();
 
-  std::map <uint8_t, LcInfo> m_lcInfoMap;
+	// forwarded from PHY SAP
+	void DoReceivePhyPdu (Ptr<Packet> p);
+	void DoReceiveLteControlMessage (Ptr<LteControlMessage> msg);
 
-  LteMacSapProvider* m_macSapProvider;
+	// internal methods
+	void RandomlySelectAndSendRaPreamble ();
+	void SendRaPreamble (bool contention);
+	void StartWaitingForRaResponse ();
+	void RecvRaResponse (BuildRarListElement_s raResponse);
+	void RaResponseTimeout (bool contention);
+	void SendReportBufferStatus (void);
+	void RefreshHarqProcessesPacketBuffer (void);
 
-  LteUeCmacSapUser* m_cmacSapUser;
-  LteUeCmacSapProvider* m_cmacSapProvider;
+private:
 
-  LteUePhySapProvider* m_uePhySapProvider;
-  LteUePhySapUser* m_uePhySapUser;
-  
-  std::map <uint8_t, LteMacSapProvider::ReportBufferStatusParameters> m_ulBsrReceived; // BSR received from RLC (the last one)
-  
-  
-  Time m_bsrPeriodicity;
-  Time m_bsrLast;
-  
-  bool m_freshUlBsr; // true when a BSR has been received in the last TTI
+	struct LcInfo
+	{
+		LteUeCmacSapProvider::LogicalChannelConfig lcConfig;
+		LteMacSapUser* macSapUser;
+	};
 
-  uint8_t m_harqProcessId;
-  std::vector < Ptr<PacketBurst> > m_miUlHarqProcessesPacket; // Packets under trasmission of the UL HARQ processes
-  std::vector < uint8_t > m_miUlHarqProcessesPacketTimer; // timer for packet life in the buffer
+	std::map <uint8_t, LcInfo> m_lcInfoMap;
 
-  uint16_t m_rnti;
+	LteMacSapProvider* m_macSapProvider;
 
-  bool m_rachConfigured;
-  LteUeCmacSapProvider::RachConfig m_rachConfig;
-  uint8_t m_raPreambleId;
-  uint8_t m_preambleTransmissionCounter;
-  uint16_t m_backoffParameter;
-  EventId m_noRaResponseReceivedEvent;
-  Ptr<UniformRandomVariable> m_raPreambleUniformVariable;
+	LteUeCmacSapUser* m_cmacSapUser;
+	LteUeCmacSapProvider* m_cmacSapProvider;
 
-  uint32_t m_frameNo;
-  uint32_t m_subframeNo;
-  uint8_t m_raRnti;
-  bool m_waitingForRaResponse;
+	LteUePhySapProvider* m_uePhySapProvider;
+	LteUePhySapUser* m_uePhySapUser;
+
+	std::map <uint8_t, LteMacSapProvider::ReportBufferStatusParameters> m_ulBsrReceived; // BSR received from RLC (the last one)
+
+
+	Time m_bsrPeriodicity;
+	Time m_bsrLast;
+
+	bool m_freshUlBsr; // true when a BSR has been received in the last TTI
+
+	uint8_t m_harqProcessId;
+	std::vector < Ptr<PacketBurst> > m_miUlHarqProcessesPacket; // Packets under trasmission of the UL HARQ processes
+	std::vector < uint8_t > m_miUlHarqProcessesPacketTimer; // timer for packet life in the buffer
+
+	uint16_t m_rnti;
+
+	bool m_rachConfigured;
+	LteUeCmacSapProvider::RachConfig m_rachConfig;
+	uint8_t m_raPreambleId;
+	uint8_t m_preambleTransmissionCounter;
+	uint16_t m_backoffParameter;
+	EventId m_noRaResponseReceivedEvent;
+	Ptr<UniformRandomVariable> m_raPreambleUniformVariable;
+
+	uint32_t m_frameNo;
+	uint32_t m_subframeNo;
+	uint8_t m_raRnti;
+	bool m_waitingForRaResponse;
 };
 
 } // namespace ns3

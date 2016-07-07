@@ -1,11 +1,12 @@
 /* -*- Mode:C++; c-file-style:"gnu"; indent-tabs-mode:nil; -*- */
-
-#include "lte-energy-module.h"
+#ifndef ENERGY_MODULE_LTE_H
+#define ENERGY_MODULE_LTE_H
 
 namespace ns3 {
 
 /* ... */
 
-
 }
+
+#endif /* ENERGY_MODULE_LTE_H */
 

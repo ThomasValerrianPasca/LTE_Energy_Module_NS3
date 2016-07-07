@@ -1,7 +1,7 @@
 /* -*- Mode:C++; c-file-style:"gnu"; indent-tabs-mode:nil; -*- */
 
 // Include a header file from your module to test.
-#include "ns3/lte-energy-module.h"
+#include "ns3/energy-module-lte.h"
 
 // An essential include is test.h
 #include "ns3/test.h"
@@ -11,25 +11,25 @@
 using namespace ns3;
 
 // This is an example TestCase.
-class LteEnergyModuleTestCase1 : public TestCase
+class EnergyModuleLteTestCase1 : public TestCase
 {
 public:
-  LteEnergyModuleTestCase1 ();
-  virtual ~LteEnergyModuleTestCase1 ();
+  EnergyModuleLteTestCase1 ();
+  virtual ~EnergyModuleLteTestCase1 ();
 
 private:
   virtual void DoRun (void);
 };
 
 // Add some help text to this case to describe what it is intended to test
-LteEnergyModuleTestCase1::LteEnergyModuleTestCase1 ()
-  : TestCase ("LteEnergyModule test case (does nothing)")
+EnergyModuleLteTestCase1::EnergyModuleLteTestCase1 ()
+  : TestCase ("EnergyModuleLte test case (does nothing)")
 {
 }
 
 // This destructor does nothing but we include it as a reminder that
 // the test case should clean up after itself
-LteEnergyModuleTestCase1::~LteEnergyModuleTestCase1 ()
+EnergyModuleLteTestCase1::~EnergyModuleLteTestCase1 ()
 {
 }
 
@@ -38,7 +38,7 @@ LteEnergyModuleTestCase1::~LteEnergyModuleTestCase1 ()
 // TestCase must implement
 //
 void
-LteEnergyModuleTestCase1::DoRun (void)
+EnergyModuleLteTestCase1::DoRun (void)
 {
   // A wide variety of test macros are available in src/core/test.h
   NS_TEST_ASSERT_MSG_EQ (true, true, "true doesn't equal true for some reason");
@@ -50,19 +50,19 @@ LteEnergyModuleTestCase1::DoRun (void)
 // and enables the TestCases to be run.  Typically, only the constructor for
 // this class must be defined
 //
-class LteEnergyModuleTestSuite : public TestSuite
+class EnergyModuleLteTestSuite : public TestSuite
 {
 public:
-  LteEnergyModuleTestSuite ();
+  EnergyModuleLteTestSuite ();
 };
 
-LteEnergyModuleTestSuite::LteEnergyModuleTestSuite ()
-  : TestSuite ("lte-energy-module", UNIT)
+EnergyModuleLteTestSuite::EnergyModuleLteTestSuite ()
+  : TestSuite ("energy-module-lte", UNIT)
 {
   // TestDuration for TestCase can be QUICK, EXTENSIVE or TAKES_FOREVER
-  AddTestCase (new LteEnergyModuleTestCase1, TestCase::QUICK);
+  AddTestCase (new EnergyModuleLteTestCase1, TestCase::QUICK);
 }
 
 // Do not forget to allocate an instance of this TestSuite
-static LteEnergyModuleTestSuite lteEnergyModuleTestSuite;
+static EnergyModuleLteTestSuite energyModuleLteTestSuite;
 

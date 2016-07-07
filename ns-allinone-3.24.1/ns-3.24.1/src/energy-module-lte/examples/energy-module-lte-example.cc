@@ -1,7 +1,7 @@
 /* -*- Mode:C++; c-file-style:"gnu"; indent-tabs-mode:nil; -*- */
 
 #include "ns3/core-module.h"
-#include "ns3/lte-energy-module-helper.h"
+#include "ns3/energy-module-lte-helper.h"
 
 using namespace ns3;
 

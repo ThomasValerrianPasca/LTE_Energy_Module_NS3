@@ -7,22 +7,22 @@
 #     conf.check_nonfatal(header_name='stdint.h', define_name='HAVE_STDINT_H')
 
 def build(bld):
-    module = bld.create_ns3_module('lte-energy-module', ['core','lte'])
+    module = bld.create_ns3_module('energy-module-lte', ['core','energy'])
     module.source = [
-        'model/lte-energy-module.cc',
-        'helper/lte-energy-module-helper.cc',
+        'model/energy-module-lte.cc',
+        'helper/energy-module-lte-helper.cc',
         ]
 
-    module_test = bld.create_ns3_module_test_library('lte-energy-module')
+    module_test = bld.create_ns3_module_test_library('energy-module-lte')
     module_test.source = [
-        'test/lte-energy-module-test-suite.cc',
+        'test/energy-module-lte-test-suite.cc',
         ]
 
     headers = bld(features='ns3header')
-    headers.module = 'lte-energy-module'
+    headers.module = 'energy-module-lte'
     headers.source = [
-        'model/lte-energy-module.h',
-        'helper/lte-energy-module-helper.h',
+        'model/energy-module-lte.h',
+        'helper/energy-module-lte-helper.h',
         ]
 
     if bld.env.ENABLE_EXAMPLES:
