@@ -33,7 +33,7 @@
 #include <ns3/lte-common.h>
 #include "ns3/simple-device-energy-model.h"
 #include "ns3/li-ion-energy-source.h"
-#include "ns3/lte-energy-module.h"
+#include "ns3/energy-module-lte.h"
 #include "ns3/energy-source-container.h"
 
 
