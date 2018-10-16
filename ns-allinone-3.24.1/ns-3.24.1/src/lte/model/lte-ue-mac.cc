@@ -293,7 +293,7 @@ LteUeMac::DoTransmitPdu (LteMacSapProvider::TransmitPduParameters params)
 
 	double idleTime= ((Simulator::Now()-m_lastUpdateTime).GetNanoSeconds());
 	Callback<void, double> two;
-	two = MakeCallback(&EnergyModuleLte::Only_donwlink_rx, &LEM);
+	two = MakeCallback(&EnergyModuleLte::Only_uplink_rx, &LEM);
 
 	m_lastUpdateTime=Simulator::Now();
 	two(idleTime);
